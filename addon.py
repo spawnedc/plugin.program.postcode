@@ -44,7 +44,7 @@ def validate_postcode(postcode=''):
     return False
 
 
-def navit_dbus(method, arguments):
+def navit_dbus(method, arguments=''):
     return [
         "dbus-send",
         "--print-reply",
