@@ -66,9 +66,10 @@ if valid_postcode:
 
     (lat, lng) = latlng.split(',')
     command = navit_dbus('set_destination', 'string:"geo: "%s %s" string:"%s"' % (lng, lat, postcode))
+    subprocess.call(command)
+    subprocess.call(navit_dbus("draw"))
 
-    response = subprocess.call(command)
-    xbmcgui.Dialog().ok(__addonname__, postcode, latlng, ' '.join(command))
+    xbmcgui.Dialog().ok(__addonname__, postcode, latlng)
 
 
 else:
