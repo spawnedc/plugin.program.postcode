@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.program.postcode" name="Postcode navigation" version="0.0.1" provider-name="spawnedc">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <disclaimer></disclaimer>
+        <summary lang="en">Postcode navigation plugin</summary>
+        <description lang="en">Postcode navigation</description>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        <language/>
+        <website></website>
+        <email>spawnedc@gmail.com</email>
+    </extension>
+</addon>
