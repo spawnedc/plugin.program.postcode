@@ -3,6 +3,7 @@ import xbmcaddon
 import re
 import csv
 import os
+import dbus
 
 addon = xbmcaddon.Addon(id="plugin.program.postcode")
 
@@ -10,6 +11,7 @@ __addonname__ = addon.getAddonInfo('name')
 __addonpath__ = addon.getAddonInfo('path')
 
 resources_path = os.path.join(__addonpath__, 'resources')
+scripts_path = os.path.join(__addonpath__, 'scripts')
 
 csv_file = os.path.join(resources_path, 'pc_lat_lon_gb.csv')
 
@@ -55,8 +57,8 @@ def navit_dbus(method, arguments=''):
     if arguments:
         args.append(arguments)
 
-    command = "RunScript('%s')" % " ".join(args)
-    # xbmc.log(command)
+    command = "RunScript('%s/navigate.py')" % scripts_path
+    xbmc.log(command)
     xbmc.executebuiltin(command)
 
 postcode = fix_postcode(xbmcgui.Dialog().input('Enter a postcode'))
