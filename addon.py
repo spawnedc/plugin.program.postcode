@@ -3,7 +3,6 @@ import xbmcaddon
 import re
 import csv
 import os
-import subprocess
 
 addon = xbmcaddon.Addon(id="plugin.program.postcode")
 
@@ -44,16 +43,21 @@ def validate_postcode(postcode=''):
     return False
 
 
-def navit_dbus(method, arguments):
-    return [
-        "dbus-send",
+def navit_dbus(method, arguments=''):
+    args = [
+        "/usr/local/bin/dbus-send",
         "--print-reply",
         "--session",
         "--dest=org.navit_project.navit",
         "/org/navit_project/navit/default_navit",
-        "org.navit_project.navit.navit.%s" % method,
-        arguments
+        "org.navit_project.navit.navit.%s" % method
     ]
+    if arguments:
+        args.append(arguments)
+
+    command = "RunScript('%s')" % " ".join(args)
+    # xbmc.log(command)
+    xbmc.executebuiltin(command)
 
 postcode = fix_postcode(xbmcgui.Dialog().input('Enter a postcode'))
 valid_postcode = validate_postcode(postcode)
@@ -65,9 +69,8 @@ if valid_postcode:
     pDialog.close()
 
     (lat, lng) = latlng.split(',')
-    command = navit_dbus('set_destination', 'string:"geo: "%s %s" string:"%s"' % (lng, lat, postcode))
-    subprocess.call(command)
-    subprocess.call(navit_dbus("draw"))
+    navit_dbus('set_destination', 'string:"geo:%s %s" string:"%s"' % (lng, lat, postcode))
+    navit_dbus('draw')
 
     xbmcgui.Dialog().ok(__addonname__, postcode, latlng)
 
