@@ -25,16 +25,16 @@ command = ' '.join(command)
 
 os.environ["DISPLAY"] = ":0"
 
-#file = open('myfile.dat', 'w')
-#file.write(command)
-#file.write('\n')
+# file = open('myfile.dat', 'w')
+# file.write(command)
+# file.write('\n')
 
 try:
     output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-    #file.write(output)
+    # file.write(output)
 except subprocess.CalledProcessError as e:
     pass
-    #file.write("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+    # file.write("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
-#file.write('\n')
-#file.close()
+# file.write('\n')
+# file.close()
