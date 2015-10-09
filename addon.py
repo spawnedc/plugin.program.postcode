@@ -45,19 +45,8 @@ def validate_postcode(postcode=''):
     return False
 
 
-def navit_dbus(method, arguments=''):
-    args = [
-        "/usr/local/bin/dbus-send",
-        "--print-reply",
-        "--session",
-        "--dest=org.navit_project.navit",
-        "/org/navit_project/navit/default_navit",
-        "org.navit_project.navit.navit.%s" % method
-    ]
-    if arguments:
-        args.append(arguments)
-
-    command = "RunScript('%s/navigate.py')" % scripts_path
+def navit_dbus(lng, lat, title=''):
+    command = "RunScript(%s/navigate.py, %s, %s, %s)" % (scripts_path, lng, lat, title)
     xbmc.log(command)
     xbmc.executebuiltin(command)
 
@@ -71,11 +60,8 @@ if valid_postcode:
     pDialog.close()
 
     (lat, lng) = latlng.split(',')
-    navit_dbus('set_destination', 'string:"geo:%s %s" string:"%s"' % (lng, lat, postcode))
-    navit_dbus('draw')
+    navit_dbus(lng, lat, postcode)
 
-    xbmcgui.Dialog().ok(__addonname__, postcode, latlng)
-
-
+    xbmc.executebuiltin('RunScript("plugin.program.navigation")')
 else:
     xbmcgui.Dialog().ok(__addonname__, 'Not a valid postcode')
