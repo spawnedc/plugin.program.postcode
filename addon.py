@@ -27,7 +27,6 @@ def postcode_to_latlng(postcode):
         spamreader = csv.reader(csvfile, delimiter=',')
         for row in spamreader:
             pc, lat, lng = row
-            pc = fix_postcode(pc)
             if pc == postcode:
                 latlng = ','.join([lat, lng])
                 break
