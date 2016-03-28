@@ -1,7 +1,7 @@
 import xbmcgui
 import xbmcaddon
 import re
-import csv
+import sqlite3
 import os
 import dbus
 
@@ -13,7 +13,7 @@ __addonpath__ = addon.getAddonInfo('path')
 resources_path = os.path.join(__addonpath__, 'resources')
 scripts_path = os.path.join(__addonpath__, 'scripts')
 
-csv_file = os.path.join(resources_path, 'pc_lat_lon_gb.csv')
+sqlite_file = os.path.join(resources_path, 'pc_lat_lon_gb.sqlite')
 
 
 def fix_postcode(postcode):
@@ -23,13 +23,13 @@ def fix_postcode(postcode):
 def postcode_to_latlng(postcode):
     latlng = None
 
-    with open(csv_file, 'r') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=',')
-        for row in spamreader:
-            pc, lat, lng = row
-            if pc == postcode:
-                latlng = ','.join([lat, lng])
-                break
+    conn = sqlite3.connect(sqlite_file)
+    cur = conn.cursor()
+    sql = "SELECT lat,lng FROM lat_lon_gb WHERE postcode='%s'" % postcode
+    cur.execute(sql)
+    row = cur.fetchone()
+    latlng = ','.join([row[0], row[1]])
+    cur.close()
 
     return latlng
 

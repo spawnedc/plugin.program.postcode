@@ -4,7 +4,8 @@ import os
 import argparse
 import subprocess
 
-parser = argparse.ArgumentParser(description='Sends set_destination command to Navit using dbus-send')
+parser = argparse.ArgumentParser(
+    description='Sends set_destination command to Navit using dbus-send')
 parser.add_argument('lng', type=float, help='Destination longitude')
 parser.add_argument('lat', type=float, help='Destination latitude')
 parser.add_argument('title', type=str, default='', help='Title of the place')
@@ -25,16 +26,8 @@ command = ' '.join(command)
 
 os.environ["DISPLAY"] = ":0"
 
-# file = open('myfile.dat', 'w')
-# file.write(command)
-# file.write('\n')
-
 try:
-    output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-    # file.write(output)
+    output = subprocess.check_output(
+        command, shell=True, stderr=subprocess.STDOUT)
 except subprocess.CalledProcessError as e:
     pass
-    # file.write("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-
-# file.write('\n')
-# file.close()
